@@ -9,6 +9,7 @@ import com.kaif.jobms.job.dto.createJobRequestDto;
 import com.kaif.jobms.job.external.Company;
 import com.kaif.jobms.job.mapper.JobMapper; // Import your manual mapper
 import com.kaif.jobms.Exception.CompanyNotFoundException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,6 +68,7 @@ public class JobServiceImplementation implements JobService {
     }
 
     @Override
+    @CircuitBreaker(name="companyBreaker")
     public void createJob(createJobRequestDto createRequest) {
         log.info("Attempting to create job for company: {}", createRequest.getCompanyId());
 
