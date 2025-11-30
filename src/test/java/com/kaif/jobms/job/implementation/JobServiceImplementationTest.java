@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.kaif.jobms.job.JobNotificationService;
 
 import java.util.Optional;
 
@@ -31,11 +32,13 @@ class JobServiceImplementationTest {
 
     @InjectMocks
     private JobServiceImplementation jobService;
+    @Mock // <--- 1. Add this mock
+    private JobNotificationService jobNotificationService;
 
     // --- TEST 1: Create Job (Success) ---
     @Test
     void testCreateJob_Success() {
-        // 1. ARRANGE (Prepare data)
+        // 1. ARRANGE
         createJobRequestDto request = new createJobRequestDto();
         request.setCompanyId(1L);
         request.setTitle("Developer");
@@ -47,17 +50,19 @@ class JobServiceImplementationTest {
         Company mockCompany = new Company();
         mockCompany.setId(1L);
 
-        // Stub: When checking company, return a valid company
+        // Stubbing
         when(companyClient.getCompany(1L)).thenReturn(mockCompany);
 
-        // 2. ACT (Run the method)
+
+        // 2. ACT
         jobService.createJob(request);
 
-        // 3. ASSERT (Verify results)
-        // Verify we checked the company
+        // 3. ASSERT
         verify(companyClient, times(1)).getCompany(1L);
-        // Verify we actually saved a Job to the database
         verify(jobRepository, times(1)).save(any(Job.class));
+
+        // Optional: Verify the notification was sent
+        verify(jobNotificationService, times(1)).notifyCompany(anyString(), eq(1L));
     }
 
     // --- TEST 2: Create Job (Company Not Found) ---

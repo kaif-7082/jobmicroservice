@@ -6,9 +6,7 @@ public class Company {
     private Long id;
     private String name;
     private String description;
-    // We can add ceo and foundedYear if we want them
-    // private String ceo;
-    // private Integer foundedYear;
+
 
     public String getName() {
         return name;

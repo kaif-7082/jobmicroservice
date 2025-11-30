@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-// This DTO was added from the monolith project
+
 @Getter
 @Setter
 public class createJobRequestDto {

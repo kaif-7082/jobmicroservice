@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 
-// This class was added from the monolith project to handle @Valid
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,5 +28,10 @@ public class GlobalExceptionHandler {
         });
         log.error("Validation error occurred: {}", errors);
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<String> handleCompanyNotFoundException(CompanyNotFoundException ex) {
+        // Return 404 Not Found with the exception message
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

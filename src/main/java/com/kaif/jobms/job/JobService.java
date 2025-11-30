@@ -2,6 +2,7 @@
 package com.kaif.jobms.job;
 
 import com.kaif.jobms.job.dto.JobDTO;
+import com.kaif.jobms.job.dto.JobDTOv2;
 import com.kaif.jobms.job.dto.LocationCount;
 import com.kaif.jobms.job.dto.createJobRequestDto;
 import org.springframework.data.domain.Page;
@@ -32,4 +33,6 @@ public interface JobService {
     Page<Job> findJobsWithPagination(Long companyId, int page, int pageSize);
 
     List<LocationCount> getLocationCounts();
+
+    JobDTOv2 getJobByIdV2(Long jobId);
 }
