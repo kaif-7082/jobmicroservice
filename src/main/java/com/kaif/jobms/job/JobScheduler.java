@@ -15,7 +15,7 @@ public class JobScheduler {
     }
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 0 12 * * MON-FRI")
     public void auditJobCount() {
         long count = jobRepository.count(); // Built-in JPA method
         log.info("--- [Scheduler] Daily Audit: We currently have {} jobs in the database. ---", count);

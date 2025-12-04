@@ -9,14 +9,15 @@ import org.springframework.stereotype.Service;
 public class JobNotificationService {
 
     // This method will run in a separate thread
-    @Async
+    @Async("taskExecutor")
     public void notifyCompany(String jobTitle, Long companyId) {
         try {
-            log.info("--- [Background Thread] Sending email notification for: {} ---", jobTitle);
+            log.info("--- [Thread: {}] Sending notification for: {} ---",
+                    Thread.currentThread().getName(), jobTitle);
 
             Thread.sleep(5000);
 
-            log.info("--- [Background Thread] Email sent to Company ID {} ---", companyId);
+            log.info("--- Notification sent ---");
         } catch (InterruptedException e) {
             log.error("Error sending email notification", e);
         }
